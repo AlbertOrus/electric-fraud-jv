@@ -3,18 +3,18 @@ package domain;
 public class ReadingFraudResult {
 
     private final Reading reading;
-    private final double averageKwh;
+    private final int medianKwh;
 
-    public ReadingFraudResult(Reading reading,double averageKwh) {
+    public ReadingFraudResult(Reading reading,int averageKwh) {
         this.reading = reading;
-        this.averageKwh = averageKwh;
+        this.medianKwh = averageKwh;
     }
 
     public Reading getReading() {
         return reading;
     }
 
-    public double getAverageKwh() {
-        return averageKwh;
+    public int getMedianKwh() {
+        return medianKwh;
     }
 }

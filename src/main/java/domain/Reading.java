@@ -1,18 +1,19 @@
 package domain;
 
-import java.time.YearMonth;
+import domain.value.Month;
 
 public class Reading {
 
     private final String customerId;
     private final int valueKwh;
-    private final YearMonth month;
+    private final Month month;
 
-    public Reading(String customerId, int valueKwh, YearMonth month) {
+    public Reading(String customerId, int valueKwh, String monthStr) {
         this.customerId = customerId;
         this.valueKwh = valueKwh;
-        this.month = month;
+        this.month = new Month(monthStr);
     }
+
 
     public String getCustomerId() {
         return customerId;
@@ -22,7 +23,7 @@ public class Reading {
         return valueKwh;
     }
 
-    public YearMonth getMonth() {
+    public Month getMonth() {
         return month;
     }
 }
