@@ -24,7 +24,7 @@ public class AnomalyDetectorService implements FraudDetection {
     public List<ReadingFraudResult> detectFrauds() {
 
         List<Reading> readings = readingRepository.getReadings();
-        Map<String,Integer> clientConsumeMedian = readings.stream()
+        Map<String,Double> clientConsumeMedian = readings.stream()
                 .collect(Collectors.groupingBy(
                         Reading::getCustomerId,
                         Collectors.collectingAndThen(
@@ -41,7 +41,7 @@ public class AnomalyDetectorService implements FraudDetection {
 
     }
 
-    private boolean isFraud(int readingValue, int median) {
+    private boolean isFraud(int readingValue, double median) {
 
         double superiorLimit = median*(1+SUSPICIOUS_MEDIAN_THRESHOLD);
         double inferiorLimit = median*(1-SUSPICIOUS_MEDIAN_THRESHOLD);
@@ -50,7 +50,7 @@ public class AnomalyDetectorService implements FraudDetection {
 
     }
 
-    private int calculateMedian(List<Integer> values) {
+    private double calculateMedian(List<Integer> values) {
         if(values.isEmpty())
             return 0;
         List<Integer> sortedValues = values.stream().sorted(Comparator.naturalOrder()).toList();
@@ -58,7 +58,7 @@ public class AnomalyDetectorService implements FraudDetection {
         if (size % 2 == 1) {
             return sortedValues.get(size / 2);
         }
-        return (sortedValues.get(size / 2 - 1) + sortedValues.get(size / 2)) / 2;
+        return ((double)(sortedValues.get(size / 2 - 1) + sortedValues.get(size / 2))) / 2;
 
     }
 

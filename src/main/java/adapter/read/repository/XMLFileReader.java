@@ -1,5 +1,7 @@
-package adapter.file_reader;
+package adapter.read.repository;
 
+import adapter.exception.FileReadingException;
+import adapter.exception.ParsingException;
 import core.ports.out.ReadingRepository;
 import domain.Reading;
 import org.w3c.dom.Document;
@@ -34,9 +36,8 @@ public class XMLFileReader implements ReadingRepository {
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             Document document = builder.parse(new File(file_path));
-            //document.getDocumentElement().normalize();
 
-            NodeList nodes = document.getElementsByTagName("readings");
+            NodeList nodes = document.getElementsByTagName("reading");
 
             for(int i = 0; i < nodes.getLength(); i++) {
                 Node node = nodes.item(i);
@@ -52,8 +53,10 @@ public class XMLFileReader implements ReadingRepository {
 
             }
 
-        } catch (ParserConfigurationException | IOException | SAXException e) { //TODO Separar excepciones y usar excepciones genericas
-            throw new RuntimeException(e);
+        } catch (ParserConfigurationException | SAXException e) {
+            throw new ParsingException(e.getMessage());
+        } catch (IOException e) {
+            throw new FileReadingException(e.getMessage());
         }
 
         return readings;

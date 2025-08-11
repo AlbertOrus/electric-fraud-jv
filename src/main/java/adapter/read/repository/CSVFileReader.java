@@ -1,5 +1,7 @@
-package adapter.file_reader;
+package adapter.read.repository;
 
+import adapter.exception.FileReadingException;
+import adapter.exception.ParsingException;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import core.ports.out.ReadingRepository;
@@ -26,13 +28,13 @@ public class CSVFileReader implements ReadingRepository {
                     .skip(1)
                     .map(read -> new Reading(
                             read[0],
-                            Integer.parseInt(read[1]),
+                            Integer.parseInt(read[2]),
                             read[1]
                     )).toList();
-        } catch (CsvException csvE) {
-            throw new RuntimeException(e); //TODO Fallo al parsear
-        } catch (IOException ioE) {
-            throw new RuntimeException(ioE); //TODO Fallo al leer el fichero
+        } catch (CsvException e) {
+            throw new ParsingException(e.getMessage());
+        } catch (IOException e) {
+            throw new FileReadingException(e.getMessage());
         }
 
     }
