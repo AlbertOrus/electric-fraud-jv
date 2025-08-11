@@ -4,7 +4,7 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY target/electric-fraud.jar /app/electric-fraud.jar
+COPY --from=build /app/target/electric-fraud.jar /app/electric-fraud.jar
 ENTRYPOINT ["java", "-jar","/app/electric-fraud.jar"]
